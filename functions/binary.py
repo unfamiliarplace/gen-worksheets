@@ -1,6 +1,7 @@
 import random
 import math
 import docx
+from docx.table import Table
 from pathlib import Path
 
 path_template = Path('templates/binary.docx')
@@ -53,14 +54,14 @@ def power_to_states(lower: int, upper: int) -> tuple[str]:
 
     return str(n), str(n ** 2)
 
-def fill_table(t: docx.table.Table, coords: tuple[int], func: callable, args: list=[], kwargs: dict={}) -> None:
+def fill_table(t: Table, coords: tuple[int], func: callable, args: list=[], kwargs: dict={}) -> None:
     for coord in coords:
         cell = t.cell(*coord)
         cell.text = func(*args, **kwargs)[0]
 
 def make() -> None:
-    global used
-    used = {k: v for (k, v) in used_default}
+    for k in used:
+        used[k] = set()
 
     d = docx.Document(path_template)
     tables = d.tables
@@ -71,11 +72,7 @@ def make() -> None:
     fill_table(tables[2], coords, dec_to_power, [1, 8])
     fill_table(tables[3], coords, power_to_states, [1, 256])
     
-    if not path_output.exists():
-        path_output.mkdir(parents=True, exist_ok=True)
-    
-    # get n
-    d.save(Path('output/binary_test.docx'))
+    return d
 
 if __name__ == '__main__':
     make()
