@@ -1,5 +1,6 @@
 import functions.binary as binary
 from pathlib import Path
+import docx2pdf
 
 # TODO Do this dynamically...
 FNS = {
@@ -28,8 +29,10 @@ def run() -> None:
 
     for i in range(n):
         tag = str(i + 1).zfill(digits)
-        d = fn.make()
-        d.save(path_output / f'{fn_name} {tag}.docx')
+        path_outfile = path_output / f'{fn_name} {tag}.docx'
+        d = fn.make(tag)
+        d.save(path_outfile)
+        docx2pdf.convert(path_outfile, path_output / f'{fn_name} {tag}.pdf')
 
     print(f'Created {n} files under {path_output}')
 

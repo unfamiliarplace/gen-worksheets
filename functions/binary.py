@@ -7,6 +7,8 @@ from pathlib import Path
 path_template = Path('templates/binary.docx')
 path_output = Path('output/binary')
 
+PH_TAG = '__TAG__'
+
 # Dumb and potentially infinite... TODO
 used_default = {
     'dec_to_bin': set(),
@@ -59,7 +61,7 @@ def fill_table(t: Table, coords: tuple[int], func: callable, args: list=[], kwar
         cell = t.cell(*coord)
         cell.text = func(*args, **kwargs)[0]
 
-def make() -> None:
+def make(tag: str='') -> None:
     for k in used:
         used[k] = set()
 
@@ -67,12 +69,18 @@ def make() -> None:
     tables = d.tables
     coords = ((0, 0), (1, 0), (0, 2), (1, 2))
 
-    fill_table(tables[0], coords, dec_to_bin, [0, 128])
-    fill_table(tables[1], coords, bin_to_dec, [0, 64])
+    fill_table(tables[0], coords, bin_to_dec, [0, 64])
+    fill_table(tables[1], coords, dec_to_bin, [0, 64])
     fill_table(tables[2], coords, dec_to_power, [1, 8])
     fill_table(tables[3], coords, power_to_states, [1, 256])
     
+    # tag it
+    for p in d.paragraphs:
+        if p.text.find(PH_TAG) >= 0:
+            p.text = p.text.replace(PH_TAG, tag)
+
     return d
 
 if __name__ == '__main__':
-    make()
+    d = make('test')
+    d.save(Path('output/binary_test.docx'))
