@@ -7,9 +7,6 @@ from pathlib import Path
 
 path_template = Path('templates/binary.docx')
 path_output = Path('output/binary')
-path_test = path_output / 'test.docx'
-
-PH_TAG = '__TAG__'
 
 # Dumb and potentially infinite... TODO
 used_default = {
@@ -82,11 +79,7 @@ class Binary(Worksheet):
         fill_table(tables[2], coords, dec_to_power, [1, 8])
         fill_table(tables[3], coords, power_to_states, [1, 256])
         
-        # tag it
-        for p in d.paragraphs:
-            if p.text.find(PH_TAG) >= 0:
-                p.text = p.text.replace(PH_TAG, tag)
-
+        Worksheet.replace(d, 'TAG', tag)
         return d
 
 if __name__ == '__main__':
