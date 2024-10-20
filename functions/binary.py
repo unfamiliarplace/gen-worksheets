@@ -1,6 +1,6 @@
 import random
 import math
-from worksheet import Worksheet
+from functions.worksheet import Worksheet
 from docx import Document
 from docx.table import Table
 from pathlib import Path
@@ -12,16 +12,11 @@ path_output = Path('output/binary')
 used_default = {
     'dec_to_bin': set(),
     'bin_to_dec': set(),
-    'dec_to_power': set(),
-    'power_to_states': set(),
+    'bits_to_states': set(),
+    'states_to_bits': set(),
 }
 
-used = {
-    'dec_to_bin': set(),
-    'bin_to_dec': set(),
-    'dec_to_power': set(),
-    'power_to_states': set(),
-}
+used = {}
 
 def dec_to_bin(lower: int, upper: int) -> tuple[str]:
     n = random.randint(lower, upper)
@@ -39,21 +34,22 @@ def bin_to_dec(lower: int, upper: int) -> tuple[str]:
 
     return n, answer
 
-def dec_to_power(lower: int, upper: int) -> tuple[str]:
+def bits_to_states(lower: int, upper: int) -> tuple[str]:
     n = random.randint(lower, upper)
-    while n in used['dec_to_power']:
+    while n in used['bits_to_states']:
         n = random.randint(lower, upper)
-    used['dec_to_power'].add(n)
+    used['bits_to_states'].add(n)
 
     return str(n), str(math.ceil(math.log2(n)))
 
-def power_to_states(lower: int, upper: int) -> tuple[str]:
-    n = random.randint(lower, upper)
-    while n in used['power_to_states']:
-        n = random.randint(lower, upper)
-    used['power_to_states'].add(n)
+def states_to_bits(lower: int, upper: int) -> tuple[str]:
+    bits = random.randint(lower, upper)
+    while bits in used['states_to_bits']:
+        bits = random.randint(lower, upper)
+    used['states_to_bits'].add(bits)
 
-    return str(n), str(n ** 2)
+    states = random.randint(((2 ** (bits - 1)) + 1), (2 ** bits) + 1)
+    return str(states), str(bits)
 
 def fill_table(t: Table, coords: tuple[int], func: callable, args: list=[], kwargs: dict={}) -> None:
     for coord in coords:
@@ -64,8 +60,8 @@ class Binary(Worksheet):
 
     @staticmethod
     def reset() -> None:
-        for k in used:
-            used[k] = set()
+        for k in used_default:
+            used[k] = used_default[k].copy()
 
     @staticmethod
     def make(tag: str='', data: dict={}) -> None:
@@ -76,8 +72,8 @@ class Binary(Worksheet):
 
         fill_table(tables[0], coords, bin_to_dec, [0, 64])
         fill_table(tables[1], coords, dec_to_bin, [0, 64])
-        fill_table(tables[2], coords, dec_to_power, [1, 8])
-        fill_table(tables[3], coords, power_to_states, [1, 256])
+        fill_table(tables[2], coords, bits_to_states, [1, 9])
+        fill_table(tables[3], coords, states_to_bits, [1, 9])
         
         Worksheet.replace(d, 'TAG', tag)
         return d

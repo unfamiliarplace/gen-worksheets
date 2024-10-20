@@ -13,7 +13,7 @@ FNS: dict[str, Worksheet] = {
 }
 
 def choose() -> str:
-    choices = list(FNS)
+    choices = ['[quit]'] + list(FNS)
     choice_str = 'Choose one of the following worksheet functions:\n\n'
     for (i, choice) in enumerate(choices):
         choice_str += f'{i + 1:>2} : {choice}\n'
@@ -25,10 +25,16 @@ def choose() -> str:
 
 def run() -> None:
     fn_name = choose()
+    if fn_name == '[quit]':
+        print('Quitting')
+        return
+
     fn = FNS[fn_name]
     data = fn.parse_data()
 
     n = int(input('Enter number of worksheets to make: '))
+    pdf = input('Also create PDFs? [Y/N; default Y]: ').upper().strip()[0] != 'N'
+
     digits = len(str(n))
     path_output = Path(f'output/{fn_name}')
     path_output.mkdir(parents=True, exist_ok=True)
@@ -41,7 +47,8 @@ def run() -> None:
         d = fn.make(tag, data)
 
         d.save(path_outfile)
-        docx2pdf.convert(path_outfile, path_output / f'{fn_name} {tag}.pdf')
+        if pdf:
+            docx2pdf.convert(path_outfile, path_output / f'{fn_name} {tag}.pdf')
 
     print(f'Created {n} files under {path_output}')
 

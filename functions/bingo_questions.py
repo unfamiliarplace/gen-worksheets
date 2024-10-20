@@ -1,6 +1,6 @@
 import random
 import docx
-from worksheet import Worksheet
+from functions.worksheet import Worksheet
 from docx.table import Table
 from pathlib import Path
 
