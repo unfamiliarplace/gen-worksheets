@@ -63,7 +63,7 @@ class Binary(Worksheet):
             used[k] = used_default[k].copy()
 
     @staticmethod
-    def make(tag: str='', data: dict={}) -> None:
+    def make(tag: str='', data: dict={}, opts: dict={}) -> None:
 
         d = Document(path_template)
         tables = d.tables

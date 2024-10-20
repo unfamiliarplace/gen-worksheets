@@ -7,7 +7,7 @@ path_template = Path('functions/templates/bingo_5x5.docx')
 path_data = Path('functions/data/bingo_questions.txt')
 path_output = Path('output/bingo (questions)')
 
-INSTRUCTIONS = 'Find the right answer for each question! Write the '
+INSTRUCTIONS = 'Find the question that goes with each answer!\nWrite the first three words of the question when you find it.'
 TITLE = 'Bingo des Questions'
 
 ROWS = 5
@@ -16,6 +16,20 @@ COLS = 5
 used = set()
 
 class BingoQuestions(Worksheet):
+
+    @staticmethod
+    def prompt_options() -> dict:
+        o = {}
+
+        which = input('Should bingo sheets have [Q]uestions or [A]nswers?: ').upper().strip()[0]
+        if which == 'Q':
+            o['use_questions'] = True
+        elif which == 'A':
+            o['use_questions'] = False
+        
+        # TODO Don't want to write a new prompts library, will incorporate later
+
+        return o
 
     @staticmethod
     def parse_data() -> dict:
@@ -35,7 +49,7 @@ class BingoQuestions(Worksheet):
         used.clear()
 
     @staticmethod
-    def make(tag: str='', data: dict={}) -> None:
+    def make(tag: str='', data: dict={}, opts: dict={}) -> None:
         questions = data['questions'][:]
         random.shuffle(questions)
 
@@ -47,7 +61,10 @@ class BingoQuestions(Worksheet):
             if i == ((ROWS * COLS) // 2):
                 continue
 
-            Worksheet.fill_cell(cell, questions[i][1])
+            if opts['use_questions']:
+                Worksheet.fill_cell(cell, questions[i][1])
+            else:
+                Worksheet.fill_cell(cell, questions[i][2])
         
         # tag it
         Worksheet.replace(d, 'TAG', tag)

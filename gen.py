@@ -30,6 +30,7 @@ def run() -> None:
         return
 
     fn = FNS[fn_name]
+    opts = fn.prompt_options()
     data = fn.parse_data()
 
     n = int(input('Enter number of worksheets to make: '))
@@ -44,7 +45,7 @@ def run() -> None:
         path_outfile = path_output / f'{fn_name} {tag}.docx'
 
         fn.reset()
-        d = fn.make(tag, data)
+        d = fn.make(tag, data, opts)
 
         d.save(path_outfile)
         if pdf:

@@ -1,11 +1,17 @@
+from __future__ import annotations
 from docx import Document
 from docx.text.paragraph import Paragraph
-from typing import Iterable
+from typing import Iterable, Type
 import docx2pdf
 from pathlib import Path
 from docx.table import _Cell
 
 class Worksheet:
+
+    @staticmethod
+    def prompt_options() -> dict:
+        return {}
+
     @staticmethod
     def parse_data() -> dict:
         return {}
@@ -15,17 +21,19 @@ class Worksheet:
         return
     
     @staticmethod
-    def make(tag: str='', data: dict={}) -> Document:
+    def make(tag: str='', data: dict={}, opts: dict={}) -> Document:
         raise NotImplementedError
 
     @classmethod
-    def test(cls: object, path_output: Path) -> None:        
+    def test(cls: Type[Worksheet], path_output: Path) -> None:        
+        opts = cls.prompt_options()
         data = cls.parse_data()
         cls.reset()
-        d = cls.make('test', data)
+        d = cls.make('test', data, opts)
         path_output.mkdir(parents=True, exist_ok=True)
         d.save(path_output / '_test.docx')
         # docx2pdf.convert(path_output / '_test.docx', path_output / '_test.pdf')
+        print(f'Saved test file in {path_output}')
 
     @staticmethod
     def fill_cell(c: _Cell, val: str) -> None:
