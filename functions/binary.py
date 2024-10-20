@@ -5,7 +5,7 @@ from docx import Document
 from docx.table import Table
 from pathlib import Path
 
-path_template = Path('templates/binary.docx')
+path_template = Path('functions/templates/binary.docx')
 path_output = Path('output/binary')
 
 # Dumb and potentially infinite... TODO
@@ -54,9 +54,9 @@ def states_to_bits(lower: int, upper: int) -> tuple[str]:
 def fill_table(t: Table, coords: tuple[int], func: callable, args: list=[], kwargs: dict={}) -> None:
     for coord in coords:
         cell = t.cell(*coord)
-        cell.text = func(*args, **kwargs)[0]
+        cell.paragraphs[0].text = func(*args, **kwargs)[0]
 
-class Binary(Worksheet):    
+class Binary(Worksheet):
 
     @staticmethod
     def reset() -> None:

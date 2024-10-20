@@ -4,19 +4,14 @@ from functions.worksheet import Worksheet
 from docx.table import Table
 from pathlib import Path
 
-path_template = Path('templates/bingo_5x5.docx')
-path_output = Path('output/bingo_questions')
+path_template = Path('functions/templates/bingo_5x5.docx')
 path_data = Path('functions/data/bingo_questions.txt')
+path_output = Path('output/bingo_questions')
 
 INSTRUCTIONS = 'Find the right answer for each question! Write the '
 TITLE = 'Bingo des Questions'
 
 used = set()
-
-def fill_table(t: Table, coords: tuple[int], func: callable, args: list=[], kwargs: dict={}) -> None:
-    for coord in coords:
-        cell = t.cell(*coord)
-        cell.text = func(*args, **kwargs)[0]
 
 class BingoQuestions(Worksheet):
 
@@ -39,6 +34,9 @@ class BingoQuestions(Worksheet):
 
     @staticmethod
     def make(tag: str='', data: dict={}) -> None:
+        questions = data['questions'][:]
+        random.shuffle(questions)
+
         d = docx.Document(path_template)
         table = d.tables[0]
 
