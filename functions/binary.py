@@ -1,11 +1,13 @@
 import random
 import math
-import docx
+from worksheet import Worksheet
+from docx import Document
 from docx.table import Table
 from pathlib import Path
 
 path_template = Path('templates/binary.docx')
 path_output = Path('output/binary')
+path_test = path_output / 'test.docx'
 
 PH_TAG = '__TAG__'
 
@@ -61,26 +63,31 @@ def fill_table(t: Table, coords: tuple[int], func: callable, args: list=[], kwar
         cell = t.cell(*coord)
         cell.text = func(*args, **kwargs)[0]
 
-def make(tag: str='') -> None:
-    for k in used:
-        used[k] = set()
+class Binary(Worksheet):    
 
-    d = docx.Document(path_template)
-    tables = d.tables
-    coords = ((0, 0), (1, 0), (0, 2), (1, 2))
+    @staticmethod
+    def reset() -> None:
+        for k in used:
+            used[k] = set()
 
-    fill_table(tables[0], coords, bin_to_dec, [0, 64])
-    fill_table(tables[1], coords, dec_to_bin, [0, 64])
-    fill_table(tables[2], coords, dec_to_power, [1, 8])
-    fill_table(tables[3], coords, power_to_states, [1, 256])
-    
-    # tag it
-    for p in d.paragraphs:
-        if p.text.find(PH_TAG) >= 0:
-            p.text = p.text.replace(PH_TAG, tag)
+    @staticmethod
+    def make(tag: str='', data: dict={}) -> None:
 
-    return d
+        d = Document(path_template)
+        tables = d.tables
+        coords = ((0, 0), (1, 0), (0, 2), (1, 2))
+
+        fill_table(tables[0], coords, bin_to_dec, [0, 64])
+        fill_table(tables[1], coords, dec_to_bin, [0, 64])
+        fill_table(tables[2], coords, dec_to_power, [1, 8])
+        fill_table(tables[3], coords, power_to_states, [1, 256])
+        
+        # tag it
+        for p in d.paragraphs:
+            if p.text.find(PH_TAG) >= 0:
+                p.text = p.text.replace(PH_TAG, tag)
+
+        return d
 
 if __name__ == '__main__':
-    d = make('test')
-    d.save(Path('output/binary_test.docx'))
+    Binary.test(path_output)

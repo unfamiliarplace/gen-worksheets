@@ -1,10 +1,15 @@
-import functions.binary as binary
+
 from pathlib import Path
 import docx2pdf
 
+from functions.worksheet import Worksheet
+from functions.binary import Binary
+from functions.bingo_questions import BingoQuestions
+
 # TODO Do this dynamically...
-FNS = {
-    'binary': binary
+FNS: dict[str, Worksheet] = {
+    'binary': Binary,
+    'bingo (questions)': BingoQuestions
 }
 
 def choose() -> str:
@@ -21,6 +26,7 @@ def choose() -> str:
 def run() -> None:
     fn_name = choose()
     fn = FNS[fn_name]
+    data = fn.parse_data()
 
     n = int(input('Enter number of worksheets to make: '))
     digits = len(str(n))
@@ -30,7 +36,10 @@ def run() -> None:
     for i in range(n):
         tag = str(i + 1).zfill(digits)
         path_outfile = path_output / f'{fn_name} {tag}.docx'
-        d = fn.make(tag)
+
+        fn.reset()
+        d = fn.make(tag, data)
+
         d.save(path_outfile)
         docx2pdf.convert(path_outfile, path_output / f'{fn_name} {tag}.pdf')
 

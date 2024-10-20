@@ -1,0 +1,30 @@
+1::Qui aime les Lucky Charms?::Mon amie Zara aime les Lucky Charms.
+2::Est-ce que tu as un chat ?::Non, j’ai un chien.
+3::Qui a fait ces portraits ?::Olivia. C’est une artiste douée.
+4::Pourquoi avons-nous du chocolat chaud ?::Parce que c’est délicieux !
+5::Quand est-ce que tu te réveilles ?::Je me réveille à 6 h 45.
+6::Qu’est-ce que tu manges pour le déjeuner ?::Une salade aux canneberges.
+7::Où se trouve la tour Eiffel ?::À Paris.
+8::Est-ce qu’elle aime Timothée Chalamet ?::Oui, elle regarde tous ses films.
+9::Comment est la classe de gym ?::C’est extrêmement fatiguant.
+10::Combien d’argent as-tu dans ta poche ?::J’ai seulement 25 centimes.
+11::Quel film de Star Wars est ton préféré ?::Le Retour du Jedi.
+12::Pourquoi n’aimes-tu pas le français ?::Parce que je parle anglais !
+13::Pourquoi aimes-tu le français ?::Parce que j’aime le langage !
+14::Quand est-ce que nous partons ?::Dans 20 minutes.
+15::Combien d’élèves sont dans la classe ?::Il y a 27 élèves dans la classe.
+16::Qui est ton joueur de basket préféré ?::Stephen Curry, il est très célèbre.
+17::Pourquoi as-tu pleuré pendant le film ?::Parce que c’était triste !
+18::Quand est ton anniversaire ?::C’est le 12 novembre.
+19::Où veux-tu aller en vacances? ::Je veux aller à Venise.
+20::Est-ce que nous allons faire de l’aligot ?::Oui, nous allons le faire.
+21::Quelles garnitures aimez-vous sur vos burgers ?::Nous aimons la laitue, les tomates, le fromage et le ketchup.
+22::Comment te sens-tu ?::Je me sens encore un peu malade.
+23::De combien d’instruments de musique est-ce que tu joues ?::De trois : du piano, du saxophone, et de la batterie.
+24::Qui a gagné le jeu « Devant la queue » ?::Les neuvièmes ont gagné.
+25::Pourquoi le poulet a-t-il traversé la rue ?::Parce qu’il voulait arriver à l'autre côté.
+26::Combien de jambes a une araignée ?::Une araignée a huit jambes.
+27::Où est-ce que j’ai perdu mon portable ?::Peut-être dans ton sac à dos.
+28::Qu’est-ce qu’ils font pour le projet d’anglais ?::Ils écrivent un court récit.
+29::Quel os a-t-elle cassé ?::Elle a cassé son bras.
+30::Pourquoi êtes-vous si joyeux ?::Parce que nous mangeons des frites !
