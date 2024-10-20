@@ -1,11 +1,11 @@
 import random
 import docx
-from worksheet import Worksheet
+from functions.worksheet import Worksheet
 from pathlib import Path
 
 path_template = Path('functions/templates/bingo_5x5.docx')
 path_data = Path('functions/data/bingo_questions.txt')
-path_output = Path('output/bingo_questions')
+path_output = Path('output/bingo (questions)')
 
 INSTRUCTIONS = 'Find the right answer for each question! Write the '
 TITLE = 'Bingo des Questions'
