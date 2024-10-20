@@ -1,7 +1,6 @@
 import random
 import docx
-from functions.worksheet import Worksheet
-from docx.table import Table
+from worksheet import Worksheet
 from pathlib import Path
 
 path_template = Path('functions/templates/bingo_5x5.docx')
@@ -10,6 +9,9 @@ path_output = Path('output/bingo_questions')
 
 INSTRUCTIONS = 'Find the right answer for each question! Write the '
 TITLE = 'Bingo des Questions'
+
+ROWS = 5
+COLS = 5
 
 used = set()
 
@@ -40,15 +42,12 @@ class BingoQuestions(Worksheet):
         d = docx.Document(path_template)
         table = d.tables[0]
 
-        for cell in table._cells:
-            print(cell)
+        for (i, cell) in enumerate(table._cells):
+            # Skip star
+            if i == ((ROWS * COLS) // 2):
+                continue
 
-        # coords = ((0, 0), (1, 0), (0, 2), (1, 2))
-
-        # fill_table(tables[0], coords, bin_to_dec, [0, 64])
-        # fill_table(tables[1], coords, dec_to_bin, [0, 64])
-        # fill_table(tables[2], coords, dec_to_power, [1, 8])
-        # fill_table(tables[3], coords, power_to_states, [1, 256])
+            Worksheet.fill_cell(cell, questions[i][1])
         
         # tag it
         Worksheet.replace(d, 'TAG', tag)

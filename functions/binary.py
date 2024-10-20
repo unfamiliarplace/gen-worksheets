@@ -53,8 +53,7 @@ def states_to_bits(lower: int, upper: int) -> tuple[str]:
 
 def fill_table(t: Table, coords: tuple[int], func: callable, args: list=[], kwargs: dict={}) -> None:
     for coord in coords:
-        cell = t.cell(*coord)
-        cell.paragraphs[0].text = func(*args, **kwargs)[0]
+        Worksheet.fill_cell(t.cell(*coord), func(*args, **kwargs)[0])
 
 class Binary(Worksheet):
 
